@@ -1,0 +1,38 @@
+--- ktremotedb.h      2018-01-18 10:50:40.174485633 +0000
++++ ktremotedb.h      2018-01-18 10:54:01.990243347 +0000
+@@ -298,7 +298,7 @@
+       RPCClient::ReturnValue rv = db_->rpc_.call("cur_get_key", &inmap, &outmap);
+       if (rv != RPCClient::RVSUCCESS) {
+         db_->set_rpc_error(rv, outmap);
+-        return false;
++        return nullptr;
+       }
+       size_t ksiz;
+       const char* kbuf = strmapget(outmap, "key", &ksiz);
+@@ -350,7 +350,7 @@
+       RPCClient::ReturnValue rv = db_->rpc_.call("cur_get_value", &inmap, &outmap);
+       if (rv != RPCClient::RVSUCCESS) {
+         db_->set_rpc_error(rv, outmap);
+-        return false;
++        return nullptr;
+       }
+       size_t vsiz;
+       const char* vbuf = strmapget(outmap, "value", &vsiz);
+@@ -411,7 +411,7 @@
+         *ksp = 0;
+         *vbp = NULL;
+         *vsp = 0;
+-        return false;
++        return nullptr;
+       }
+       size_t ksiz = 0;
+       const char* kbuf = strmapget(outmap, "key", &ksiz);
+@@ -481,7 +481,7 @@
+       RPCClient::ReturnValue rv = db_->rpc_.call("cur_seize", &inmap, &outmap);
+       if (rv != RPCClient::RVSUCCESS) {
+         db_->set_rpc_error(rv, outmap);
+-        return false;
++        return nullptr;
+       }
+       size_t ksiz = 0;
+       const char* kbuf = strmapget(outmap, "key", &ksiz);

@@ -1,0 +1,11 @@
+--- kcdbext.h	2016-05-25 11:32:53.591866016 +0200
++++ kcdbext.h	2012-05-24 18:27:59.000000000 +0200
+@@ -1278,7 +1278,7 @@
+     if (omode_ == 0) {
+       set_error(_KCCODELINE_, BasicDB::Error::INVALID, "not opened");
+       *sp = 0;
+-      return false;
++      return nullptr;
+     }
+     if (!cache_) return db_.get(kbuf, ksiz, sp);
+     size_t dvsiz = 0;
