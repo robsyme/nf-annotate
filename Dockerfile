@@ -9,8 +9,9 @@ wget \
 unzip \
 build-essential
 
-# Install Augustus
 WORKDIR /usr/local
+
+# Install Augustus
 RUN wget http://bioinf.uni-greifswald.de/augustus/binaries/augustus-3.3.tar.gz \
 && tar -xvf augustus*.tar.gz
 
@@ -19,7 +20,8 @@ RUN apt-get install -qqy \
  python \
  zlib1g-dev \
  python-dev \
- python-numpy
+ python-numpy \
+ iputils-ping
 
 RUN ln -s /usr/lib/python2.7/plat-*/_sysconfigdata_nd.py /usr/lib/python2.7/
 
@@ -54,5 +56,14 @@ RUN apt-get install -qqy r-base \
  r-cran-magrittr \
  r-cran-dplyr
 
+# Install newick utils
+RUN wget http://cegg.unige.ch/pub/newick-utils-1.6-Linux-x86_64-disabled-extra.tar.gz \
+&& tar -xvf newick-utils*.tar.gz \
+&& rm newick-utils*.tar.gz \
+&& mv newick-utils-* newick-utils \
+&& cd newick-utils \
+&& ./configure \
+&& make
+
 ENV PYTHONPATH /usr/local/progressiveCactus/submodules
-ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/augustus:/usr/local/progressiveCactus/bin:/usr/local/progressiveCactus/submodules/kentToolBinaries:/usr/local/hisat2:/usr/local/mash
+ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/augustus:/usr/local/progressiveCactus/bin:/usr/local/progressiveCactus/submodules/kentToolBinaries:/usr/local/hisat2:/usr/local/mash:/usr/local/progressiveCactus/submodules/hal/bin:/usr/local/newick-utils/src

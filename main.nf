@@ -6,6 +6,8 @@ params.rnaseq = "data/*/*.bam"
 Channel.fromPath(params.masked)
 .map { Path path -> [path.getParent().getBaseName(), path]}
 .tap { genomesForUnmasking }
+.tap { genomesForList }
+.tap { genomesForCactus }
 
 process mash {
   tag { id }
@@ -39,6 +41,7 @@ process makeTree {
 
   output:
   file "tree.nwk" into tree
+  file "tree.nwk" into tree2
 
   """
 #!/usr/bin/env Rscript
@@ -56,8 +59,53 @@ read.table("distances.txt", stringsAsFactors=FALSE, sep="\t", col.names=c("ref",
   """
 }
 
-tree.println()
+process viewTree {
+  input:
+  file "tree.nwk" from tree2
+
+  output:
+  stdout into asciitree
+
+  "nw_display tree.nwk"
+}
+
+asciitree.subscribe {
+  println("================================================================================")
+  println("============================= Estimated  Phylogeny =============================")
+  println()
+  print(it)
+  println("================================================================================")
+
+}
+
+process renamegenomes {
+  input:
+  set id, "input.fasta" from genomesForCactus
+
+  output:
+  file "${id}.fasta" into genomesRenamedForCactus
+
+  "ln -s input.fasta ${id}.fasta"
+}
 
 
+process progressivecactus {
+  cpus 10 
 
+  input:
+  file "tree.nwk" from tree
+  file genomes from genomesRenamedForCactus.toList()
 
+  output:
+  file cactusout into cactusout
+
+  """
+cp tree.nwk genomes.txt
+for fasta in *.fasta; do
+  echo \$(basename \$fasta .fasta) \$fasta
+done >> genomes.txt
+runProgressiveCactus.sh --maxThreads=${task.cpus} genomes.txt cactusout genomes.hal 
+  """
+}
+
+cactusout.println()
