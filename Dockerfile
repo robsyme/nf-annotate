@@ -74,6 +74,7 @@ RUN apt-get install -qqy lua5.1
 # Install exonerate
 RUN apt-get install -qqy exonerate
 
+# Install genometools
 RUN apt-get install -qqy genometools
 
 ENV PYTHONPATH /usr/local/progressiveCactus/submodules
