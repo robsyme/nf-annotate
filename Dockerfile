@@ -21,7 +21,8 @@ RUN apt-get install -qqy \
  zlib1g-dev \
  python-dev \
  python-numpy \
- iputils-ping
+ iputils-ping \
+ time
 
 RUN ln -s /usr/lib/python2.7/plat-*/_sysconfigdata_nd.py /usr/lib/python2.7/
 
