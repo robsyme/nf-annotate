@@ -12,8 +12,24 @@ build-essential
 WORKDIR /usr/local
 
 # Install Augustus
+RUN apt-get install -qqy \
+libboost-iostreams-dev \
+libboost-graph-dev \
+libsuitesparse-dev \
+liblpsolve55-dev \
+libbamtools-dev \
+libgsl-dev \ 
+zlib1g-dev
+
 RUN wget http://bioinf.uni-greifswald.de/augustus/binaries/augustus-3.3.tar.gz \
-&& tar -xvf augustus*.tar.gz
+&& tar -xvf augustus*.tar.gz \
+&& rm augustus*.tar.gz
+COPY patches/augustusmk.patch /usr/local/augustus/
+RUN cd augustus \
+&& patch < augustusmk.patch \
+&& make \
+&& make install
+
 
 # Install ProgressiveCactus
 RUN apt-get install -qqy \
@@ -78,5 +94,6 @@ RUN apt-get install -qqy exonerate
 # Install genometools
 RUN apt-get install -qqy genometools
 
+ENV AUGUSTUS_CONFIG_PATH /usr/local/augustus/config
 ENV PYTHONPATH /usr/local/progressiveCactus/submodules
-ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/augustus:/usr/local/augustus/scripts:/usr/local/progressiveCactus/bin:/usr/local/progressiveCactus/submodules/kentToolBinaries:/usr/local/hisat2:/usr/local/mash:/usr/local/progressiveCactus/submodules/hal/bin:/usr/local/newick-utils/src
+ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/augustus/bin:/usr/local/augustus/scripts:/usr/local/progressiveCactus/bin:/usr/local/progressiveCactus/submodules/kentToolBinaries:/usr/local/hisat2:/usr/local/mash:/usr/local/progressiveCactus/submodules/hal/bin:/usr/local/newick-utils/src
