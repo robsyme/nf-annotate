@@ -18,6 +18,7 @@ libboost-graph-dev \
 libsuitesparse-dev \
 liblpsolve55-dev \
 libbamtools-dev \
+libdbi-perl \
 libgsl-dev \ 
 zlib1g-dev
 
@@ -105,7 +106,23 @@ RUN wget https://downloads.sourceforge.net/project/codingquarry/CodingQuarry_v2.
 && cd codingquarry \
 && make
 
+# Install kentUtils
+RUN apt-get install -qqy git libssl-dev libpng-dev openssl libmysqlclient-dev
+RUN git clone git://github.com/ENCODE-DCC/kentUtils.git \
+&& cd kentUtils \
+&& make
+
+# Install blat
+RUN wget http://hgwdev.cse.ucsc.edu/~kent/src/blatSrc36.zip \
+&& mkdir -p /root/bin/x86_64 \
+&& unzip blatSrc36.zip \
+&& rm -rf blat*.zip \
+&& mv blatSrc blat \
+&& cd blat \
+&& make
+
+
 ENV QUARRY_PATH /usr/local/codingquarry/QuarryFiles
 ENV AUGUSTUS_CONFIG_PATH /usr/local/augustus/config
 ENV PYTHONPATH /usr/local/progressiveCactus/submodules
-ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/augustus/bin:/usr/local/augustus/scripts:/usr/local/progressiveCactus/bin:/usr/local/progressiveCactus/submodules/kentToolBinaries:/usr/local/hisat2:/usr/local/mash:/usr/local/progressiveCactus/submodules/hal/bin:/usr/local/newick-utils/src:/usr/local/codingquarry
+ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/augustus/bin:/usr/local/augustus/scripts:/usr/local/progressiveCactus/bin:/usr/local/progressiveCactus/submodules/kentToolBinaries:/usr/local/hisat2:/usr/local/mash:/usr/local/progressiveCactus/submodules/hal/bin:/usr/local/newick-utils/src:/usr/local/codingquarry:/usr/local/kentUtils/bin:/root/bin/x86_64
