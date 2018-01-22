@@ -94,6 +94,17 @@ RUN apt-get install -qqy exonerate
 # Install genometools
 RUN apt-get install -qqy genometools
 
+# Install Cufflinks 
+RUN apt-get install -qqy cufflinks
+
+# Install CodingQuarry
+RUN wget https://downloads.sourceforge.net/project/codingquarry/CodingQuarry_v2.0.tar.gz \
+&& tar -xvf CodingQuarry*.tar.gz \
+&& rm CodingQuarry*.tar.gz \
+&& mv CodingQuarry_v2.0 codingquarry \
+&& cd codingquarry \
+&& make
+
 ENV AUGUSTUS_CONFIG_PATH /usr/local/augustus/config
 ENV PYTHONPATH /usr/local/progressiveCactus/submodules
-ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/augustus/bin:/usr/local/augustus/scripts:/usr/local/progressiveCactus/bin:/usr/local/progressiveCactus/submodules/kentToolBinaries:/usr/local/hisat2:/usr/local/mash:/usr/local/progressiveCactus/submodules/hal/bin:/usr/local/newick-utils/src
+ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/augustus/bin:/usr/local/augustus/scripts:/usr/local/progressiveCactus/bin:/usr/local/progressiveCactus/submodules/kentToolBinaries:/usr/local/hisat2:/usr/local/mash:/usr/local/progressiveCactus/submodules/hal/bin:/usr/local/newick-utils/src:/usr/local/codinquarry
