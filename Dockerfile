@@ -31,7 +31,6 @@ RUN cd augustus \
 && make \
 && make install
 
-
 # Install ProgressiveCactus
 RUN apt-get install -qqy \
  python \
@@ -121,8 +120,23 @@ RUN wget http://hgwdev.cse.ucsc.edu/~kent/src/blatSrc36.zip \
 && cd blat \
 && make
 
+# Install Trinity v2.5.1
+RUN apt-get update && apt-get install -qqy rsync default-jre bowtie2
+RUN wget https://github.com/trinityrnaseq/trinityrnaseq/archive/Trinity-v2.5.1.tar.gz \
+&& tar -xvf Trinity*.tar.gz \
+&& rm Trinity*.tar.gz \
+&& mv trinityrnaseq-Trinity-v2.5.1 trinity
+COPY patches/Chrysalis_makefile.patch /usr/local/trinity/Chrysalis/
+RUN cd /usr/local/trinity/Chrysalis \
+&& patch < Chrysalis_makefile.patch \
+&& cd /usr/local/trinity \
+&& make \
+&& make plugins \
+&& make install
+
+ENV TRINITY_HOME /usr/local/bin/trinity
 
 ENV QUARRY_PATH /usr/local/codingquarry/QuarryFiles
 ENV AUGUSTUS_CONFIG_PATH /usr/local/augustus/config
 ENV PYTHONPATH /usr/local/progressiveCactus/submodules
-ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/augustus/bin:/usr/local/augustus/scripts:/usr/local/progressiveCactus/bin:/usr/local/progressiveCactus/submodules/kentToolBinaries:/usr/local/hisat2:/usr/local/mash:/usr/local/progressiveCactus/submodules/hal/bin:/usr/local/newick-utils/src:/usr/local/codingquarry:/usr/local/kentUtils/bin:/root/bin/x86_64
+ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/augustus/bin:/usr/local/augustus/scripts:/usr/local/progressiveCactus/bin:/usr/local/progressiveCactus/submodules/kentToolBinaries:/usr/local/hisat2:/usr/local/mash:/usr/local/progressiveCactus/submodules/hal/bin:/usr/local/newick-utils/src:/usr/local/codingquarry:/usr/local/kentUtils/bin:/root/bin/x86_64:/usr/local/bin/trinity

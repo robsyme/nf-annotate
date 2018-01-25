@@ -1,0 +1,11 @@
+--- Makefile    2018-01-25 03:25:16.328438939 +0000
++++ Makefile    2018-01-25 03:25:37.172402346 +0000
+@@ -292,6 +292,8 @@
+ # Language control (e.g. template instantiations):
+ SYS_LANG       =
+ 
++SYS_INCS = -I.
++
+ # Where to find system-specific includes:
+ ifeq ($(COMPILER),g++)
+   ifeq ($(GPP_MAJOR_VERSION),2)
