@@ -89,7 +89,7 @@ RUN apt-get install -qqy aragorn
 RUN apt-get install -qqy lua5.1 
 
 # Install exonerate
-RUN apt-get install -qqy exonerate
+RUN apt-get install -qqy exonerate libio-string-perl libbio-perl-perl
 
 # Install genometools
 RUN apt-get install -qqy genometools
@@ -121,7 +121,7 @@ RUN wget http://hgwdev.cse.ucsc.edu/~kent/src/blatSrc36.zip \
 && make
 
 # Install Trinity v2.5.1
-RUN apt-get update && apt-get install -qqy rsync default-jre bowtie2
+RUN apt-get update && apt-get install -qqy rsync default-jre bowtie2 
 RUN wget https://github.com/trinityrnaseq/trinityrnaseq/archive/Trinity-v2.5.1.tar.gz \
 && tar -xvf Trinity*.tar.gz \
 && rm Trinity*.tar.gz \
