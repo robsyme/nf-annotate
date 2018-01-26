@@ -4,24 +4,47 @@ MAINTAINER Rob Syme <rob.syme@gmail.com>
 
 RUN apt-get update \
 && apt-get install -qqy \
+aragorn \
+bowtie2 \
+build-essential \
+cufflinks \
+default-jre \
+exonerate \
+genometools \
 git \
-wget \
+iputils-ping \
+libbamtools-dev \
+libbio-perl-perl \
+libboost-graph-dev \
+libboost-iostreams-dev \
+libdbi-perl \
+libgsl-dev \ 
+libio-string-perl \
+liblpsolve55-dev \
+libmysqlclient-dev \
+libpng-dev \
+libssl-dev \
+libsuitesparse-dev \
+lua5.1 \
+openssl \
+python \
+python-dev \
+python-numpy \
+r-base \
+r-cran-dplyr \
+r-cran-magrittr \
+r-cran-phangorn \
+r-cran-reshape2 \
+rsync \
+time \
 unzip \
-build-essential
+wget \
+zlib1g-dev \
+zlib1g-dev
 
 WORKDIR /usr/local
 
 # Install Augustus
-RUN apt-get install -qqy \
-libboost-iostreams-dev \
-libboost-graph-dev \
-libsuitesparse-dev \
-liblpsolve55-dev \
-libbamtools-dev \
-libdbi-perl \
-libgsl-dev \ 
-zlib1g-dev
-
 RUN wget http://bioinf.uni-greifswald.de/augustus/binaries/augustus-3.3.tar.gz \
 && tar -xvf augustus*.tar.gz \
 && rm augustus*.tar.gz
@@ -32,14 +55,6 @@ RUN cd augustus \
 && make install
 
 # Install ProgressiveCactus
-RUN apt-get install -qqy \
- python \
- zlib1g-dev \
- python-dev \
- python-numpy \
- iputils-ping \
- time
-
 RUN ln -s /usr/lib/python2.7/plat-*/_sysconfigdata_nd.py /usr/lib/python2.7/
 
 RUN git clone git://github.com/glennhickey/progressiveCactus.git \
@@ -66,13 +81,6 @@ RUN wget https://github.com/marbl/Mash/releases/download/v2.0/mash-Linux64-v2.0.
 && rm mash*.tar \
 && mv mash-* mash
 
-# Install R and packages
-RUN apt-get install -qqy r-base \
- r-cran-phangorn \
- r-cran-reshape2 \
- r-cran-magrittr \
- r-cran-dplyr
-
 # Install newick utils
 RUN wget http://cegg.unige.ch/pub/newick-utils-1.6-Linux-x86_64-disabled-extra.tar.gz \
 && tar -xvf newick-utils*.tar.gz \
@@ -81,21 +89,6 @@ RUN wget http://cegg.unige.ch/pub/newick-utils-1.6-Linux-x86_64-disabled-extra.t
 && cd newick-utils \
 && ./configure \
 && make
-
-# Install aragorn (tRNA prediction)
-RUN apt-get install -qqy aragorn
-
-# Install lua
-RUN apt-get install -qqy lua5.1 
-
-# Install exonerate
-RUN apt-get install -qqy exonerate libio-string-perl libbio-perl-perl
-
-# Install genometools
-RUN apt-get install -qqy genometools
-
-# Install Cufflinks 
-RUN apt-get install -qqy cufflinks
 
 # Install CodingQuarry
 RUN wget https://downloads.sourceforge.net/project/codingquarry/CodingQuarry_v2.0.tar.gz \
@@ -106,7 +99,6 @@ RUN wget https://downloads.sourceforge.net/project/codingquarry/CodingQuarry_v2.
 && make
 
 # Install kentUtils
-RUN apt-get install -qqy git libssl-dev libpng-dev openssl libmysqlclient-dev
 RUN git clone git://github.com/ENCODE-DCC/kentUtils.git \
 && cd kentUtils \
 && make
@@ -121,7 +113,6 @@ RUN wget http://hgwdev.cse.ucsc.edu/~kent/src/blatSrc36.zip \
 && make
 
 # Install Trinity v2.5.1
-RUN apt-get update && apt-get install -qqy rsync default-jre bowtie2 
 RUN wget https://github.com/trinityrnaseq/trinityrnaseq/archive/Trinity-v2.5.1.tar.gz \
 && tar -xvf Trinity*.tar.gz \
 && rm Trinity*.tar.gz \
