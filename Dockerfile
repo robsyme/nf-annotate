@@ -22,6 +22,7 @@ libgsl-dev \
 libio-string-perl \
 liblpsolve55-dev \
 libmysqlclient-dev \
+libparallel-forkmanager-perl \
 libpng-dev \
 libssl-dev \
 libsuitesparse-dev \
@@ -39,7 +40,6 @@ rsync \
 time \
 unzip \
 wget \
-zlib1g-dev \
 zlib1g-dev
 
 WORKDIR /usr/local
