@@ -24,6 +24,7 @@ liblpsolve55-dev \
 libmysqlclient-dev \
 libparallel-forkmanager-perl \
 libpng-dev \
+libsqlite3-dev \
 libssl-dev \
 libsuitesparse-dev \
 lua5.1 \
@@ -37,6 +38,7 @@ r-cran-magrittr \
 r-cran-phangorn \
 r-cran-reshape2 \
 rsync \
+tabix \
 time \
 unzip \
 wget \
@@ -47,10 +49,10 @@ WORKDIR /usr/local
 # Install Augustus
 RUN wget http://bioinf.uni-greifswald.de/augustus/binaries/augustus-3.3.tar.gz \
 && tar -xvf augustus*.tar.gz \
-&& rm augustus*.tar.gz
-COPY patches/augustusmk.patch /usr/local/augustus/
-RUN cd augustus \
-&& patch < augustusmk.patch \
+&& rm augustus*.tar.gz \
+&& cd augustus \
+&& echo "COMPGENEPRED = true" >> common.mk \
+&& echo "SQLITE = true" >> common.mk \
 && make \
 && make install
 
@@ -126,8 +128,7 @@ RUN cd /usr/local/trinity/Chrysalis \
 && make install
 
 ENV TRINITY_HOME /usr/local/bin/trinity
-
 ENV QUARRY_PATH /usr/local/codingquarry/QuarryFiles
 ENV AUGUSTUS_CONFIG_PATH /usr/local/augustus/config
 ENV PYTHONPATH /usr/local/progressiveCactus/submodules
-ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/augustus/bin:/usr/local/augustus/scripts:/usr/local/progressiveCactus/bin:/usr/local/progressiveCactus/submodules/kentToolBinaries:/usr/local/hisat2:/usr/local/mash:/usr/local/progressiveCactus/submodules/hal/bin:/usr/local/newick-utils/src:/usr/local/codingquarry:/usr/local/kentUtils/bin:/root/bin/x86_64:/usr/local/bin/trinity
+ENV PATH /usr/local/augustus/bin:/usr/local/augustus/scripts:/usr/local/progressiveCactus/bin:/usr/local/progressiveCactus/submodules/kentToolBinaries:/usr/local/hisat2:/usr/local/mash:/usr/local/progressiveCactus/submodules/hal/bin:/usr/local/newick-utils/src:/usr/local/codingquarry:/usr/local/kentUtils/bin:/root/bin/x86_64:/usr/local/bin/trinity:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
