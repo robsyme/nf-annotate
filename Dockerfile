@@ -58,7 +58,6 @@ RUN wget http://bioinf.uni-greifswald.de/augustus/binaries/augustus-3.3.tar.gz \
 
 # Install ProgressiveCactus
 RUN ln -s /usr/lib/python2.7/plat-*/_sysconfigdata_nd.py /usr/lib/python2.7/
-
 RUN git clone git://github.com/glennhickey/progressiveCactus.git \
 && cd progressiveCactus \
 && git checkout tags/0.1 -b 0.1 \
@@ -66,8 +65,8 @@ RUN git clone git://github.com/glennhickey/progressiveCactus.git \
 
 COPY patches/ktremote.patch progressiveCactus/submodules/kyototycoon/
 COPY patches/ktulog.patch progressiveCactus/submodules/kyototycoon/
-RUN cd progressiveCactus/submodules/kyototycoon && patch < ktulog.patch && patch < ktremote.patch
 COPY patches/kyotocabinet-1.2.76-gcc6.patch progressiveCactus/submodules/kyotocabinet/
+RUN cd progressiveCactus/submodules/kyototycoon && patch < ktulog.patch && patch < ktremote.patch
 RUN cd progressiveCactus/submodules/kyotocabinet && patch < kyotocabinet-1.2.76-gcc6.patch
 RUN cd progressiveCactus && make
 
